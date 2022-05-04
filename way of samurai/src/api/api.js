@@ -28,6 +28,9 @@ export const headerAPI = {
     getAuth() {
         return instance.get(`auth/me`)
             .then(response=>response.data)
+    },
+    postLogin() {
+        return instance.post('auth/login', )
     }
 }
 
