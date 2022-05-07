@@ -66,7 +66,7 @@ let initialState = {
             imgSrc: 'https://lumpics.ru/wp-content/uploads/2017/11/Programmyi-dlya-sozdaniya-avatarok.png'
         }
     ],
-    newMessageText: 'Write new message..',
+    newMessageText: '',
 };
 
 const dialogsReducer = (state = initialState, action) => {
@@ -74,7 +74,7 @@ const dialogsReducer = (state = initialState, action) => {
         case SEND_MESSAGE: {
             let newMessage = {
                 id: 6,
-                message: state.newMessageText,
+                message: action.newMessageText,
                 imgSrc: 'https://lumpics.ru/wp-content/uploads/2017/11/Programmyi-dlya-sozdaniya-avatarok.png'
             }
             return {
@@ -82,29 +82,15 @@ const dialogsReducer = (state = initialState, action) => {
                 messages: [...state.messages, newMessage],
                 newMessageText: ''
             };
-            /*stateCopy.messages = [...state.messages];
-            stateCopy.messages.push(newMessage);
-            stateCopy.newMessageText = '';*/
-        }
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            return {
-                ...state,
-                newMessageText: action.newTextOfMessage
-            };
         }
         default: return state;
     }
 }
-export const sendMessageActionCreator = () => {
+export const sendMessageActionCreator = (newMessageText) => {
     return {
-        type: SEND_MESSAGE
+        type: SEND_MESSAGE,
+        newMessageText
     }
 }
 
-export const updateNewMessageTextActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newTextOfMessage: text
-    }
-}
 export default dialogsReducer;
