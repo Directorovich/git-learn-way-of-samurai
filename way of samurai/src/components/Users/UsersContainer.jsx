@@ -1,24 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-    follow, requestUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleFollowingProgress,
-    toggleIsFetching,
-    unfollow
-} from "../../redux/users-reducer";
+import {follow, requestUsers, toggleFollowingProgress, unfollow} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 import {compose} from "redux";
-import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
-    getTotalUsersCount, getUsers
+    getTotalUsersCount,
+    getUsers
 } from "../../redux/users-selectors";
 
 class UsersAPIComponent extends React.Component {
