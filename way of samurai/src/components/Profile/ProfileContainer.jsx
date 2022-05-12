@@ -9,8 +9,12 @@ import {compose} from "redux";
 class ProfileContainer extends React.Component {
     componentDidMount() {
         //console.log(this.props);
-        this.props.getProfile(this.props.router.params.userId);
-        this.props.getStatus(this.props.router.params.userId);
+        let userId = this.props.router.params.userId
+        if (!userId){
+            userId=this.props.authorizedUserId;
+        }
+        this.props.getProfile(userId);
+        this.props.getStatus(userId);
 
         /*let userId = this.props.router.params.userId
         if (!userId){
