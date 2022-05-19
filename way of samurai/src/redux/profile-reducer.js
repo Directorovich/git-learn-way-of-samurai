@@ -47,7 +47,8 @@ const profileReducer = (state = initialState, action) => {
                 status: action.status
             };
         }
-        default: return state;
+        default:
+            return state;
     }
 }
 
@@ -76,35 +77,18 @@ export const setStatus = (status) => {
     }
 }
 
-export const getProfile = (userId) =>{
-    return (dispatch) =>{
-        /*if (!userId){
-            userId=23304;
-        }*/
-        profileAPI.getProfile(userId)
-            .then(data => {
-                dispatch(setUserProfile(data));
-            })
-    }
+export const getProfile = (userId) => async (dispatch) => {
+    let data = await profileAPI.getProfile(userId);
+    dispatch(setUserProfile(data));
 }
-
-export const getStatus = (userId) =>{
-    return (dispatch) =>{
-        profileAPI.getStatus(userId)
-            .then(response => {
-                dispatch(setStatus(response.data));
-            })
-    }
+export const getStatus = (userId) => async (dispatch) => {
+    let response = await profileAPI.getStatus(userId);
+    dispatch(setStatus(response.data));
 }
-
-export const updateStatus = (status) =>{
-    return (dispatch) =>{
-        profileAPI.updateStatus(status)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(setStatus(status));
-                }
-            })
+export const updateStatus = (status) => async (dispatch) => {
+    let response = await profileAPI.updateStatus(status);
+    if (response.data.resultCode === 0) {
+        dispatch(setStatus(status));
     }
 }
 
