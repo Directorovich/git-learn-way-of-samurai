@@ -10,12 +10,16 @@ import s from './../Common/FormsControls/FormsControls.module.css'
 let maxLength30 = maxLengthCreator(30);
 const Input = Element('input');
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
         <form onSubmit={handleSubmit}>
             {createField('Email', 'email', Input, [requiredField, maxLength30])}
             {createField('Password', 'password', Input, [requiredField, maxLength30], {type : 'password'})}
             {createField(null, 'rememberMe', Input, null, {type : 'checkbox'}, 'Remember me')}
+
+            { captchaUrl && <img src={captchaUrl} alt=""/>}
+            { captchaUrl && createField("Symbols from image", 'captcha', Input, [requiredField])}
+
             {error && <div className={s.formSummaryError}>
                 {error}
             </div>}
@@ -44,7 +48,7 @@ const Login = (props) => {
         <h1>
             LOGIN
         </h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
     </div>
 }
 const mapStateToProps = (state) => ({

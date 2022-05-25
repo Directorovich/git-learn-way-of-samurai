@@ -1,13 +1,13 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getProfile, getStatus, updateStatus} from "../../redux/profile-reducer";
+import {getProfile, getStatus, savePhoto, saveProfile, updateStatus} from "../../redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom"
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component {
-    componentDidMount() {
+    refreshProfile () {
         //console.log(this.props);
         let userId = this.props.router.params.userId
         if (!userId){
@@ -30,12 +30,26 @@ class ProfileContainer extends React.Component {
                 this.props.setUserProfile(response.data);
             })*/
     }
+    componentDidMount() {
+        this.refreshProfile();
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+       // if (this.props.router.params.userId !== prevProps.props.router.params.userId) {
+            this.refreshProfile();
+        // }
+    }
 
     render() {
         /*if (!this.props.isAuth) return <Navigate to={'/login'}/>*/
         return (
             <div>
-                <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus}/>
+                <Profile {...this.props}
+                         isOwner={!this.props.router.params.userId}
+                         profile={this.props.profile}
+                         status={this.props.status}
+                         updateStatus={this.props.updateStatus}
+                         savePhoto={this.props.savePhoto}
+                         saveProfile={this.props.saveProfile}/>
             </div>
         )
     }
@@ -62,7 +76,7 @@ let mapStateToProps = (state) => ({
 })
 
 export default compose(
-    connect(mapStateToProps, {getProfile, getStatus, updateStatus}),
+    connect(mapStateToProps, {getProfile, getStatus, updateStatus, savePhoto, saveProfile}),
     withRouter,
     //withAuthRedirect
 )(ProfileContainer);
